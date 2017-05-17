@@ -4,7 +4,7 @@ parameters:
     database_port: null
     database_name: ParkingMapProj
     database_user: root
-    database_password: null
+    database_password: yw3[-o5x
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
