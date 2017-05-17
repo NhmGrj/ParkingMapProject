@@ -4,6 +4,7 @@ namespace ParkingMapBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use ParkingMapBundle\Entity\State as State;
 
 /**
  * Slots
@@ -23,7 +24,7 @@ class Slots
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="State", mappedBy="Slot")
+     * @ORM\OneToMany(targetEntity="State", mappedBy="slot")
      */
      private $states;
 
@@ -40,4 +41,15 @@ class Slots
     {
         return $this->id;
     }
+
+    /**
+     * Get states
+     *
+     * @return ArrayCollection
+     */
+     public function getStates() {
+         return $this->states;
+     }
+
+
 }

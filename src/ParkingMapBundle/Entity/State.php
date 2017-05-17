@@ -3,6 +3,7 @@
 namespace ParkingMapBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ParkingMapBundle\Entity\Slots as Slots;
 
 /**
  * State
@@ -24,20 +25,19 @@ class State
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime", unique=true)
+     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="state", type="boolean", unique=true)
+     * @ORM\Column(name="state", type="boolean")
      */
     private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Slots", inversedBy="states")
-     * @ORM\JoinColumn(name="slot_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Slots", inversedBy="states", cascade={"persist"})
      */
     private $slot;
 
@@ -99,4 +99,25 @@ class State
     {
         return $this->state;
     }
+
+    /**
+     * Get slot
+     *
+     * @return ParkingMapBundle\Entity\Slots
+     */
+     public function getSlot()
+     {
+         return $this->slot;
+     }
+
+     /**
+      * Set slot
+      */
+      public function setSlot($slot)
+      {
+          $this->slot = $slot;
+          $slot->getStates()->add($this);
+
+          return $this;
+      }
 }
