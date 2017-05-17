@@ -35,6 +35,12 @@ class State
      */
     private $state;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Slots", inversedBy="states")
+     * @ORM\JoinColumn(name="slot_id", referencedColumnName="id")
+     */
+    private $slot;
+
 
     /**
      * Get id
@@ -94,4 +100,3 @@ class State
         return $this->state;
     }
 }
-
