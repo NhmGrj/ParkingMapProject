@@ -1,3 +1,4 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+parking_map:
+    resource: "@ParkingMapBundle/Controller/"
+    type:     annotation
+    prefix:   /
