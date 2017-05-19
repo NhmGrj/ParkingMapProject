@@ -3,33 +3,41 @@ namespace ParkingMapBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use ParkingMapBundle\Entity\Slots;
 use ParkingMapBundle\Entity\State;
 
-class LoadSlotsData implements FixtureInterface {
+class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
+
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
 
     public function load(ObjectManager $manager)
     {
-        //Time Specification ISO 8601.
-        //https://en.wikipedia.org/wiki/ISO_8601#Durations
-        $tenHours = "PT10H";
-        $fifteenMinutes = "PT15M"
+        $th = $this->container->get('pkm.time_handler');
+        $slotNb = 10;
+        $hoursNb = 10;
+        $maxIt = $hoursNb * 4;
 
-        //Set up 10 slots, with potential state update every 10 min
-        //from 10h than currentTime for each slots.
-        for ($i=0; $i <= 10; $i++) {
-            $time = new \DateTime();
-            $time = $time->sub(new \DateInterval($tenHours));
+        for ($i=0; $i <= $slotNb; $i++) {
             $slot = new Slots();
 
             //Set up states data related to each slot
-            for ($it=0; $it <= 40; $it++) {
+            $th->subHours($hoursNb);
+            for ($it=1; $it <= $maxIt; $it++) {
+
                 $state = new State();
-                $state->setDate($time);
+                $state->setDate($th->getTime());
 
                 //Let's simulate that slots state can change
                 // every 15 min.
-                if($it == 0) {
+                if($it == 1) {
                     // Let's assume all slots were free at the beginning
                     $state->setState(true);
                     $lastState = $state->getState();
@@ -39,14 +47,16 @@ class LoadSlotsData implements FixtureInterface {
                     // if the state change, it means someone leave,
                     // or occupied the the slot.
                     $state->setLastState($lastState);
-                    $state->setState(rand(0, 1) ? !$lastState : $lastState);
+                    var_dump(rand(0, 10) < 10);
+                    $state->setState((rand(0, 10) < 5) ? $lastState : (!$lastState));
                     $lastState = $state->getState();
                 }
+
                 $state->setSlot($slot);
                 $manager->persist($state);
-                // $manager->flush();
+                $manager->flush();
 
-                $time->add(new \DateInterval($fifteenMinutes));
+                $th->addMins(15);
             }
 
             $manager->persist($slot);
