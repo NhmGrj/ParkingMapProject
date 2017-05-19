@@ -37,6 +37,13 @@ class State
     private $state;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="last_state", type="boolean", nullable=true)
+     */
+    private $last_state;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Slots", inversedBy="states", cascade={"persist"})
      */
     private $slot;
@@ -93,11 +100,36 @@ class State
     /**
      * Get state
      *
+     * True = Disponible / False = Occupied
      * @return bool
      */
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * Set last_state
+     *
+     * @param boolean $last_state
+     *
+     * @return State
+     */
+    public function setLastState($last_state)
+    {
+        $this->last_state = $last_state;
+
+        return $this;
+    }
+
+    /**
+     * Get last_state
+     *
+     * @return bool
+     */
+    public function getLastState()
+    {
+        return $this->last_state;
     }
 
     /**
