@@ -52,11 +52,8 @@ class DataHandler {
                     //it means either someone got or leaved the slot
                     if($state->getState() != $state->getLastState()){
                         if(!$state->getState()) {
-                            // var_dump('One exit');
                             $hoursSpanArray[$key]['counter'][$slot->getId()]['exit']++;// Count one exit for that slot for that hour
                         } else {
-                            // var_dump('One Entry');
-
                             $hoursSpanArray[$key]['counter'][$slot->getId()]['entry']++;// Count one entry for that hour for that slot
                         }
                     }
@@ -72,10 +69,9 @@ class DataHandler {
             }
             $this->em->clear();
         }
-
         return $hoursSpanArray;
     }
 
 
-    
+
 }
