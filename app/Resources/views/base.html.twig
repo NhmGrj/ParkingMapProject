@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8" />
+    <title>ParkingMapProject</title>
+
+    {% stylesheets filter='?yui_css, cssrewrite' output='css/lib.css'
+        '@ParkingMapBundle/Resources/public/css/style.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+    <link rel="icon" type="image/png" href="{#{asset('bundles/biotraceapp/images/favicon.ico')}#}" />
+
+</head>
+<body>
+
+{% block body %}{% endblock body %}
+
+{% block javascripts %}{% endblock %}
+</body>
 </html>
