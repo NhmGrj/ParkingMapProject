@@ -2,7 +2,7 @@
 
 namespace ParkingMapBundle\Repository;
 
-use ParkingMapBundle\Entity\Slots;
+use ParkingMapBundle\Entity\Slots as Slots;
 
 /**
  * SlotsRepository
@@ -27,5 +27,14 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
 
 
+    }
+
+    public function getSlotsNb() {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('COUNT(sl)')
+            ->from('ParkingMapBundle\Entity\Slots', 'sl');
+
+        return $qb->getQuery()->getResult()[0][1];
     }
 }
