@@ -2,6 +2,8 @@
 
 namespace ParkingMapBundle\Repository;
 
+use ParkingMapBundle\Entity\Slots;
+
 /**
  * SlotsRepository
  *
@@ -10,4 +12,20 @@ namespace ParkingMapBundle\Repository;
  */
 class SlotsRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findAllStatesByHoursSpan($hourStart, $hourEnd) {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select(array('sl', 'st'))
+            ->from('ParkingMapBundle\Entity\Slots', 'sl')
+            ->join('sl.states', 'st')
+            ->where("st.date <= :hourStart AND st.date >= :hourEnd")
+            ->setParameter('hourStart', $hourStart)
+            ->setParameter('hourEnd', $hourEnd);
+
+        return $qb->getQuery()->getResult();
+
+
+    }
 }
