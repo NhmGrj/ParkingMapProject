@@ -14,12 +14,9 @@ class TimeHandler {
         return $this->currentTime;
     }
 
-    //Time Specification ISO 8601.
-    //https://en.wikipedia.org/wiki/ISO_8601#Durations
     public function subHours($hoursNb) {
         return $this->currentTime->sub(new \DateInterval("PT".$hoursNb."H"));
     }
-
     public function addMins($minsNb) {
         return $this->currentTime->add(new \DateInterval("PT".$minsNb."M"));
     }
