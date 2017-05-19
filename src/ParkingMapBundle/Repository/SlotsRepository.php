@@ -35,6 +35,26 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
         $qb->select('COUNT(sl)')
             ->from('ParkingMapBundle\Entity\Slots', 'sl');
 
-        return $qb->getQuery()->getResult()[0][1];
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getFreeSlots($onlyNb = false) {
+        $slots = $this->getEntityManager()
+        ->getRepository('ParkingMapBundle\Entity\Slots')
+        ->findAll();
+
+        foreach($slots as $key => $slot) {
+            $lastState = array_reverse($slot->getStates()->toArray())[0];
+            if(!$lastState->getState()) {
+                unset($slots[$key]);
+            }
+        }
+
+        return ($onlyNb) ? count($slots) : $slots;
+
+    }
+
+    public function getFreeSlotsNb() {
+        return $this->getFreeSlots(true);
     }
 }
