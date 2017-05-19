@@ -34,7 +34,6 @@ class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
 
                 $state = new State();
                 $state->setDate($th->getTime());
-
                 //Let's simulate that slots state can change
                 // every 15 min.
                 if($it == 1) {
@@ -47,7 +46,7 @@ class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
                     // if the state change, it means someone leave,
                     // or occupied the the slot.
                     $state->setLastState($lastState);
-                    var_dump(rand(0, 10) < 10);
+                    // var_dump(rand(0, 10) < 10);
                     $state->setState((rand(0, 10) < 5) ? $lastState : (!$lastState));
                     $lastState = $state->getState();
                 }
