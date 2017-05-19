@@ -36,6 +36,11 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function getFreeSlotsNb() {
+        $onlyNb = true;
+        return $this->getFreeSlots($onlyNb);
+    }
+
     public function getFreeSlots($onlyNb = false) {
         $slots = $this->getEntityManager()
         ->getRepository('ParkingMapBundle\Entity\Slots')
@@ -51,7 +56,4 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
         return ($onlyNb) ? count($slots) : $slots;
     }
 
-    public function getFreeSlotsNb() {
-        return $this->getFreeSlots(true);
-    }
 }
