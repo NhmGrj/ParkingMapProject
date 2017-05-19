@@ -5,6 +5,9 @@
     <title>ParkingMapProject</title>
 
     {% stylesheets filter='?yui_css, cssrewrite' output='css/lib.css'
+        '@ParkingMapBundle/Resources/public/vendor/bootstrap/dist/css/bootstrap.min.css'
+        '@ParkingMapBundle/Resources/public/vendor/bootstrap/dist/css/bootstrap.min.css.map'
+
         '@ParkingMapBundle/Resources/public/css/style.css'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
@@ -16,6 +19,12 @@
 
 {% block body %}{% endblock body %}
 
+{% javascripts filter='?yui_js' output='js/lib.js'
+'@ParkingMapBundle/Resources/public/vendor/jquery/dist/jquery.min.js'
+'@ParkingMapBundle/Resources/public/vendor/bootstrap/dist/js/bootstrap.min.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% block javascripts %}{% endblock %}
 </body>
 </html>
