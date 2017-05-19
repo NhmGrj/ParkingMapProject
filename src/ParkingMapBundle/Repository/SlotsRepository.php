@@ -25,8 +25,6 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('hourEnd', $hourEnd);
 
         return $qb->getQuery()->getResult();
-
-
     }
 
     public function getSlotsNb() {
@@ -51,7 +49,6 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return ($onlyNb) ? count($slots) : $slots;
-
     }
 
     public function getFreeSlotsNb() {
