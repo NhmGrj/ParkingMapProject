@@ -4,27 +4,27 @@
 
 <div class="jumbotron col-md-10 col-md-offset-1">
   <h1>Parking Map Project</h1>
-  <p>Projet technique réalisé dans un context de test, par Néhémie Grandjean (nhm.grd@gmail.com) </p>
+  <p>Projet technique réalisé dans un context de test, @NhmGrj(nhm.grd@gmail.com) </p>
   <p><a class="btn btn-primary btn-lg" href="https://github.com/NhmGrj/ParkingMapProject/blob/master/README.md" role="button">Learn more</a></p>
 </div>
 <div class="row">
-    <div class="col-md-4 border-right">
+    <div class="col-md-5">
         <div class="text-center">
             <h3>Disponibility</h3>
             <div class="br"></div>
             <h2><span class="label label-success">{{freeSlotsNb}}</span> / <span class="label label-default">{{slotsNb}}</span></h2>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7 border-left">
         <div class="col-md-10">
             <h3>Traffic by hours</h3>
             <br>
             <table class="table col-md-offset-1 col-md-10">
                 <tr>
                     <th>From - To</th>
-                    <th>Exits</th>
                     <th>Entries</th>
-                    <th>
+                    <th>Exits</th>
+                    <th>lo</th>
                 </tr>
 
                 {% for span in trafficByHoursSpan %}
@@ -35,10 +35,35 @@
                         <span class="label label-default">{{span.current|date("H")~"h"}}</span>
                     </td>
                     <td>
-                        <span class="label label-primary">{{span.totalExits}}</span>
-                    </td><td>
                         <span class="label label-success">{{span.totalEntries}}</span>
                     </td>
+                    <td>
+                        <span class="label label-primary">{{span.totalExits}}</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-xs btn-default" type="button" data-toggle="collapse" data-target="#collapse{{span.prevHour|date("H")~"h"}}-{{span.current|date("H")~"h"}}" aria-expanded="false" aria-controls="collapseExample">
+                          Details
+                        </button>
+                    </td>
+                </tr>
+                <tr class="collapse" id="collapse{{span.prevHour|date("H")~"h"}}-{{span.current|date("H")~"h"}}">
+                     <td colspan="4">
+                         <div class="panel panel-default">
+                              <div class="panel-heading"><h5>From <span class="label label-default">{{span.prevHour|date("H")~"h"}}</span> - To <span class="label label-default">{{span.current|date("H")~"h"}}</span></h5></div>
+                              <div class="panel-body">
+                                  <div class="col-md-11">
+                                      {% for id in span.counter|keys %}
+                                      <div class="col-md-2 text-center slot-label">
+                                          <span class="label custom-label label-default">{{id}}</span><span class="label custom-label label-success">{{span.counter[id].entry}}</span><span class="label custom-label label-primary">{{span.counter[id].exit}}</span>
+                                      </div>
+                                      <div class="">
+
+                                      </div>
+                                      {% endfor %}
+                                  </div>
+                              </div>
+                        </div>
+                     </td >
                 </tr>
                 {% endfor %}
             </table>
