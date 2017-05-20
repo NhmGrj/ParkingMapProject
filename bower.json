@@ -1,0 +1,22 @@
+{
+  "name": "ParkingMapProject",
+  "homepage": "https://github.com/NhmGrj/ParkingMapProject",
+  "authors": [
+    "NhmGrj <nhm.grd@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/ParkingMapBundle/Resources/public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
