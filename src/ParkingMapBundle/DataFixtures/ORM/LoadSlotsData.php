@@ -21,11 +21,12 @@ class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
     public function load(ObjectManager $manager)
     {
         $th = $this->container->get('pkm.time_handler');
-        $slotNb = 10;
+        $slotNb = 12;
         $hoursNb = 10;
-        $maxIt = $hoursNb * 4;
+        $itByHour = 4;
+        $maxIt = $hoursNb * $itByHour;
 
-        for ($i=0; $i <= $slotNb; $i++) {
+        for ($i=0; $i <= ($slotNb - 1); $i++) {
             $slot = new Slots();
 
             //Set up states data related to each slot
@@ -55,7 +56,7 @@ class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
                 $manager->persist($state);
                 $manager->flush();
 
-                $th->addMins(15);
+                $th->addMins(60/$itByHour);
             }
 
             $manager->persist($slot);
