@@ -26,6 +26,7 @@ Installation
 
 ```sh
 $ git clone https://github.com/NhmGrj/ParkingMapProject.git
+$ cd ParkingMapProject
 $ make set-up
 ```
 You should now be able to access the project by browsing "http://localhost:8000"
