@@ -47,7 +47,7 @@ $(document).ready(function() {
     series: [{
         name: 'Entry',
         data: entry.reverse(),
-        color: "#88B02F"
+        color: "#55d62d"
 
     }, {
         name: 'Exit',
