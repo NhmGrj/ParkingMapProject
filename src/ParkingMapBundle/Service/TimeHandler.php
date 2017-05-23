@@ -26,11 +26,10 @@ class TimeHandler {
     public function getSpanHoursArray($hoursNb, $hoursSpan) {
         $hoursArray = [];
         $time = new \DateTime();
-        $time->sub(new \DateInterval("PT".$time->format('i')."M"));
         for ($i=0; $i <= $hoursNb; $i++) {
             $hoursArray[] = array(
                 'current' => new \DateTime($time->format("Y-m-d H:i:s")),
-                'prevHour' => new \DateTime($time->sub(new \DateInterval("PT".$hoursSpan."H"))->format("Y-m-d H:i:s")),
+                'prev' => new \DateTime($time->sub(new \DateInterval("PT".$hoursSpan."H"))->format("Y-m-d H:i:s")),
 
             );
         }

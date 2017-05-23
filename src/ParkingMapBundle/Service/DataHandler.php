@@ -23,31 +23,32 @@ class DataHandler {
         $hoursSpanArray = $this->th->getSpanHoursArray($hoursNb, $hoursSpan);
 
         foreach ($hoursSpanArray as $key => $hour) {
-            $hoursSpanArray[$key]['counter'] = array();
+            $hoursSpanArray[$key]['counter']      = array();
             $hoursSpanArray[$key]['totalEntries'] = 0;
-            $hoursSpanArray[$key]['totalExits'] = 0;
+            $hoursSpanArray[$key]['totalExits']   = 0;
 
-            $slots = $this->slotsRepository->findAllStatesByHoursSpan($hour['current'], $hour['prevHour']);
+            $slots = $this->slotsRepository->findAllStatesByHoursSpan($hour['current'], $hour['prev']);
 
             foreach($slots as $slot) {
                 $hoursSpanArray[$key]['counter'][$slot->getId()] = array(
-                    'entry' => 0,
-                    'exit' => 0
+                    'entry'  => 0,
+                    'exit'   => 0,
+                    'isFree' => null,
                 );
-
                 foreach($slot->getStates() as $state) {
                     if($state->getState() != $state->getLastState()){
                         if($state->getState()) {
-                            $hoursSpanArray[$key]['counter'][$slot->getId()]['entry']++;// Count one entry for that hour for that slot
+                            $hoursSpanArray[$key]['counter'][$slot->getId()]['entry']++;
                             $hoursSpanArray[$key]['totalEntries']++;
                         } else {
-                            $hoursSpanArray[$key]['counter'][$slot->getId()]['exit']++;// Count one exit for that slot for that hour
+                            $hoursSpanArray[$key]['counter'][$slot->getId()]['exit']++;
                             $hoursSpanArray[$key]['totalExits']++;
                         }
                     }
                 }
             }
             $this->em->clear();
+            // die;
         }
         return $hoursSpanArray;
     }

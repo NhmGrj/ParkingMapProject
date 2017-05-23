@@ -6,10 +6,18 @@
     border-left: 1px solid black;
 }
 
+.border-right {
+    border-right: 1px solid black;
+}
+
 .custom-label {
     border-radius: 0em;
 }
 
 .slot-label {
     border-radius: .25em;
+}
+
+.hidden {
+    display: none;
 }

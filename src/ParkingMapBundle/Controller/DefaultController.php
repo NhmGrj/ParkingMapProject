@@ -20,11 +20,14 @@ class DefaultController extends Controller
 
         $trafficByHoursSpan = $dataHandler->getEntriesByHoursSpan($nbHour, $hourSpan);
         $slotsNb = $slotsRepository->getSlotsNb();
+        $slots = $slotsRepository->findAll();
         $freeSlotsNb = $slotsRepository->getFreeSlotsNb();
+        $freeSlots = $slotsRepository->getFreeSlots();
 
         return $this->render('ParkingMapBundle:Default:index.html.twig', array(
             "trafficByHoursSpan"  => $trafficByHoursSpan,
             "slotsNb"             => $slotsNb,
+            "slots"               => $slots,
             "freeSlotsNb"         => $freeSlotsNb
         ));
     }
