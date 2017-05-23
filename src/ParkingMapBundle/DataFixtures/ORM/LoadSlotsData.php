@@ -21,10 +21,11 @@ class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
     public function load(ObjectManager $manager)
     {
         $th = $this->container->get('pkm.time_handler');
-        $slotNb = 12;
-        $hoursNb = 10;
+        $slotNb = 24;
+        $hoursNb = 15;
         $itByHour = 4;
         $maxIt = $hoursNb * $itByHour;
+        $indiceTrafficDensity = 9; // 0 no traffic, 10 lot of traffic
 
         for ($i=0; $i <= ($slotNb - 1); $i++) {
             $slot = new Slots();
@@ -40,6 +41,7 @@ class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
                 if($it == 1) {
                     // Let's assume all slots were free at the beginning
                     $state->setState(true);
+                    $state->setLastState(true);
                     $lastState = $state->getState();
                 } else {
                     // If it is not the first iteration, let's
@@ -48,7 +50,7 @@ class LoadSlotsData implements FixtureInterface, ContainerAwareInterface {
                     // or occupied the the slot.
                     $state->setLastState($lastState);
                     // var_dump(rand(0, 10) < 10);
-                    $state->setState((rand(0, 10) < 5) ? $lastState : (!$lastState));
+                    $state->setState((rand(0, 10) > $indiceTrafficDensity) ? $lastState : (!$lastState));
                     $lastState = $state->getState();
                 }
 
