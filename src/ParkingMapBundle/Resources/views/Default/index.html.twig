@@ -34,7 +34,9 @@
         </div>
     </div>
 </div>
-
+<br>
+<br>
+<br>
 <div class="row">
     <div class="col-md-4 border-right">
         <div class="">
@@ -45,7 +47,7 @@
                     <th>From - To</th>
                     <th>Entries</th>
                     <th>Exits</th>
-                    <th>lo</th>
+                    <th>More</th>
                 </tr>
 
                 {% for span in trafficByHoursSpan %}
@@ -62,33 +64,46 @@
                         <span class="label label-primary">{{span.totalExits}}</span>
                     </td>
                     <td>
-                        <button class="btn btn-xs btn-default" type="button" data-toggle="collapse" data-target="#collapse{{span.prev|date("H")}}-{{span.current|date("H")}}" aria-expanded="false" aria-controls="collapseExample">
-                          Details
+                        <button class="btn btn-xs btn-primary" type="button" data-toggle="modal" data-target="#bs-modal-{{span.prev|date("H")}}-{{span.current|date("H")}}" aria-expanded="false" aria-controls="collapseExample">
+                         More ...
                         </button>
                     </td>
-                </tr>
-                <tr class="collapse" id="collapse{{span.prev|date("H")}}-{{span.current|date("H")}}">
-                     <td colspan="4">
-                         <div class="panel panel-default">
-                              <div class="panel-heading"><h5>From <span class="label label-default">{{span.prev|date("H:i")}}</span> - To <span class="label label-default">{{span.current|date("H:i")}}</span></h5></div>
-                              <div class="panel-body">
-                                  <div class="col-md-12">
-                                      {% for id in span.counter|keys %}
-                                      <div class="col-md-2 text-center slot-label">
-                                          <div class="row">
-                                              <span class="label custom-label label-warning">Slot n° {{id}}</span>
-                                          </div>
-                                          <div class="row">
-
-                                              <span class="label custom-label label-success">{{span.counter[id].entry}}</span><span class="label custom-label label-primary">{{span.counter[id].exit}}</span>
-                                          </div>
-                                      </div>
-
-                                      {% endfor %}
-                                  </div>
-                              </div>
+                    <!-- Modal -->
+                    <div id="bs-modal-{{span.prev|date("H")}}-{{span.current|date("H")}}" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel"><h3 class="text-center">Traffic between <span class="label label-default">{{span.prev|date("H:i")}}</span> - <span class="label label-default">{{span.current|date("H:i")}}</span></h5></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-offset-1">
+                                            Legend : <span class="label label-success">Entry</span> - <span class="label label-primary">Exit</span>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        {% for id in span.counter|keys %}
+                                        <div class="col-md-2 text-center">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    Slot n° <span class="badge">{{id}}</span>
+                                                    <br>
+                                                    <br>
+                                                    <span class="label custom-label label-success">{{span.counter[id].entry}}</span> - <span class="label custom-label label-primary">{{span.counter[id].exit}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
-                     </td >
+                    </div>
                 </tr>
                 {% endfor %}
             </table>
