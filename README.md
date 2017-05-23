@@ -4,7 +4,7 @@ ParkingMapProject
 ## Project details
 ParkingMapProject was a technical project asked to be done by https://www.parkingmap.fr/ .
 
-The purpose of the test was to record a parking traffic. For the purpose of extracting re-usable data.
+The test was to record a parking traffic. For the purpose of extracting re-usable data.
 
 I had to realise a PHP program in order to display:
     - The total slots number (Assumed available and occupied)
@@ -18,8 +18,8 @@ I used Bootstrap(CSS)/Twig(HTML)/jQuery(JS) for the front-end part and HighChart
 Composer is used to manage packages for the Symfony app.
 Bower is used to manage dependencies for the front-end.
 
-This project is service-orentied, it means I consider that the controller is here to return a view filled by variables, but nothing else.
-And all the logic and data handling is done by services extern to the controller and injected by the symfony3 container.
+This project is service-oriented, it means I consider that the controller is here to return a view filled by variables, but nothing else.
+And all the logic and data handling is done by external-services to the controller and injected by the symfony3 container.
 
 Installation
 ===
