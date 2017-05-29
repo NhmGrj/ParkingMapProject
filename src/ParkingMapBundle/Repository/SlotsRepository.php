@@ -13,7 +13,7 @@ use ParkingMapBundle\Entity\Slots as Slots;
 class SlotsRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function findAllStatesByHoursSpan($hourStart, $hourEnd) {
+    public function findAllByStatesByHoursSpan($hourStart, $hourEnd) {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
 
@@ -34,7 +34,7 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
             $hoursSpanArray[$key]['totalEntries'] = 0;
             $hoursSpanArray[$key]['totalExits']   = 0;
 
-            $slots = $this->findAllStatesByHoursSpan($hour['current'], $hour['prev']);
+            $slots = $this->findAllByStatesByHoursSpan($hour['current'], $hour['prev']);
 
             foreach($slots as $slot) {
                 $hoursSpanArray[$key]['counter'][$slot->getId()] = array(
@@ -60,32 +60,27 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function getSlotsNb() {
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->createQueryBuilder('sl');
 
-        $qb->select('COUNT(sl)')
-            ->from('ParkingMapBundle\Entity\Slots', 'sl');
+        $qb->select('COUNT(sl)');
 
         return $qb->getQuery()->getSingleScalarResult();
     }
 
     public function getFreeSlotsNb() {
-        $onlyNb = true;
-        return $this->getFreeSlots($onlyNb);
+        $qb = $this->createQueryBuilder('sl');
+
+        $qb->select('COUNT(sl)')
+            ->where("sl.currentState = 1");
+
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getFreeSlots($onlyNb = false) {
-        $slots = $this->getEntityManager()
-        ->getRepository('ParkingMapBundle\Entity\Slots')
-        ->findAll();
+    public function getFreeSlots() {
+        $qb = $this->createQueryBuilder('sl')
+            ->where("sl.currentState = 1");
 
-        foreach($slots as $key => $slot) {
-            $lastState = array_reverse($slot->getStates()->toArray())[0];
-            if(!$lastState->getState()) {
-                unset($slots[$key]);
-            }
-        }
-
-        return ($onlyNb) ? count($slots) : $slots;
+        return $qb->getQuery()->getResult();
     }
-
 }

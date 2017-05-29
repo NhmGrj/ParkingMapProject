@@ -2,6 +2,8 @@
 
 namespace ParkingMapBundle\Repository;
 
+use Doctrine\ORM\Query\ResultSetMapping;
+
 /**
  * StateRepository
  *
@@ -10,28 +12,5 @@ namespace ParkingMapBundle\Repository;
  */
 class StateRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getStateByHours($hourStart, $hourEnd) {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-
-        $qb->select(array('st'))
-            ->from('ParkingMapBundle\Entity\State', 'st')
-            // // ->join('sl.states', 'st')
-            ->where("st.date <= :hourStart AND st.date >= :hourEnd")
-            ->setParameter('hourStart', $hourStart)
-            ->setParameter('hourEnd', $hourEnd);
-
-            var_dump('query params -> ');
-            var_dump(array(
-                '1' => $hourStart,
-                '2' => $hourEnd));
-            var_dump('result ->');
-            var_dump($qb->getQuery()->getResult());
-            // foreach($qb->getQuery()->getResult() as $v) {
-            //     foreach($v->getStates() as $s) {
-            //         var_dump($s->getDate());
-            //     }
-            // }
-            die;
-    }
 
 }

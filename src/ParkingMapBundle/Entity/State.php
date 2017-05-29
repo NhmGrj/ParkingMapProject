@@ -39,9 +39,9 @@ class State
     /**
      * @var bool
      *
-     * @ORM\Column(name="last_state", type="boolean", nullable=true)
+     * @ORM\Column(name="last_state", type="boolean")
      */
-    private $last_state;
+    private $last_state = true;
 
     /**
      * @ORM\ManyToOne(targetEntity="Slots", inversedBy="states", cascade={"persist"})
@@ -149,6 +149,7 @@ class State
       {
           $this->slot = $slot;
           $slot->getStates()->add($this);
+          $slot->setCurrentState($this->state);
 
           return $this;
       }

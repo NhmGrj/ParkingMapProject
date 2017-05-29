@@ -28,7 +28,11 @@ class Slots
      */
      private $states;
 
-     private $curentState;
+     /**
+     * @ORM\Column(name="current_state", type="boolean")
+     */
+     private $currentState = true;
+
 
      public function __construct() {
         $this->states = new ArrayCollection();
@@ -59,23 +63,29 @@ class Slots
       * @return State
       */
       public function getCurrentState() {
-          $states = $this->states->toArray();
-          $states = array_reverse($states);
-          $currentState = array_shift($states);
-
-          return $currentState;
+          return $this->currentState;
       }
+
+      /**
+       * Set current State
+       *
+       * @return $this
+       */
+       public function setCurrentState($state) {
+           $this->currentState = $state;
+           return $this;
+       }
 
       /**
        * Get if the slot is free or not
        *
-       * If Current state is true, the slot isn't Free
-       * If Current state is false, the slot is actually Free
+       * If Current state is false, the slot isn't Free
+       * If Current state is true, the slot is actually Free
        *
        * @return bool
        */
       public function isFree() {
-          return $this->getCurrentState()->getState();
+          return $this->getCurrentState();
       }
 
 
