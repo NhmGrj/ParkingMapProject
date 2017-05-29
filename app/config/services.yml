@@ -4,9 +4,5 @@ parameters:
     #parameter_name: value
 
 services:
-    pkm.data_handler:
-       class: ParkingMapBundle\Service\DataHandler
-       arguments: ['@doctrine.orm.entity_manager', '@pkm.time_handler']
-
     pkm.time_handler:
         class: ParkingMapBundle\Service\TimeHandler

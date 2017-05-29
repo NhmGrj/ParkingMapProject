@@ -12,13 +12,15 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $dataHandler = $this->container->get('pkm.data_handler');
         $em = $this->container->get('doctrine');
+        $th = $this->container->get('pkm.time_handler');
         $slotsRepository = $em->getRepository('ParkingMapBundle:Slots');
-        $nbHour = 10;
-        $hourSpan = 1;
+        $nbHours = 10;
+        $hoursSpan = 1;
+        $hoursSpanArray = $th->getSpanHoursArray($nbHours, $hoursSpan);
 
-        $trafficByHoursSpan = $dataHandler->getEntriesByHoursSpan($nbHour, $hourSpan);
+
+        $trafficByHoursSpan = $slotsRepository->getEntriesByHoursSpan($hoursSpanArray);
         $slotsNb = $slotsRepository->getSlotsNb();
         $slots = $slotsRepository->findAll();
         $freeSlotsNb = $slotsRepository->getFreeSlotsNb();

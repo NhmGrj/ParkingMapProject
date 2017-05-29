@@ -27,6 +27,38 @@ class SlotsRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function getEntriesByHoursSpan($hoursSpanArray) {
+
+        foreach ($hoursSpanArray as $key => $hour) {
+            $hoursSpanArray[$key]['counter']      = array();
+            $hoursSpanArray[$key]['totalEntries'] = 0;
+            $hoursSpanArray[$key]['totalExits']   = 0;
+
+            $slots = $this->findAllStatesByHoursSpan($hour['current'], $hour['prev']);
+
+            foreach($slots as $slot) {
+                $hoursSpanArray[$key]['counter'][$slot->getId()] = array(
+                    'entry'  => 0,
+                    'exit'   => 0,
+                    'isFree' => null,
+                );
+                foreach($slot->getStates() as $state) {
+                    if($state->getState() != $state->getLastState()){
+                        if($state->getState()) {
+                            $hoursSpanArray[$key]['counter'][$slot->getId()]['entry']++;
+                            $hoursSpanArray[$key]['totalEntries']++;
+                        } else {
+                            $hoursSpanArray[$key]['counter'][$slot->getId()]['exit']++;
+                            $hoursSpanArray[$key]['totalExits']++;
+                        }
+                    }
+                }
+            }
+            $this->getEntityManager()->clear();
+        }
+        return $hoursSpanArray;
+    }
+
     public function getSlotsNb() {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
