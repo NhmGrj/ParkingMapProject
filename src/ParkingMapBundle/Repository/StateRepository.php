@@ -12,5 +12,60 @@ use Doctrine\ORM\Query\ResultSetMapping;
  */
 class StateRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTrafficByHoursSpan($hoursSpanArray)
+    {
+        $trafficByHours = array();
 
+        $conn = $this->getEntityManager()
+        ->getConnection();
+
+        foreach ($hoursSpanArray as $hour) {
+            $totalEntries = 0;
+            $totalExits = 0;
+
+
+            $sql = '
+                SELECT result.slot_id,
+                       COUNT(
+                           case result.state when 1 then 1 else null end
+                        ) as entries,
+                       COUNT(
+                           case result.state when 0 then 1 else null end
+                        ) as exits
+                FROM
+                  (
+                    SELECT state.slot_id, state.state
+                    FROM state
+                    JOIN slots ON slots.id = state.slot_id
+                    WHERE state.date <= :hourStart
+                    AND state.date >= :hourEnd
+                    AND state.last_state != state.state
+                  ) as result
+                GROUP BY result.slot_id
+            ';
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(array(
+                'hourStart' => $hour['current']->format('Y-m-d H:i:s'),
+                'hourEnd' => $hour['prev']->format('Y-m-d H:i:s')
+            ));
+
+            $results = $stmt->fetchAll();
+
+            foreach($results as $result) {
+                $totalEntries += $result['entries'];
+                $totalExits += $result['exits'];
+            }
+
+            $trafficByHours[] = array(
+                'current' => $hour['current']->format('Y-m-d H:i:s'),
+                'prev' => $hour['prev']->format('Y-m-d H:i:s'),
+                'results' => $results,
+                'totalEntries' => $totalEntries,
+                'totalExits' => $totalExits
+            );
+        }
+
+        return $trafficByHours;
+    }
 }

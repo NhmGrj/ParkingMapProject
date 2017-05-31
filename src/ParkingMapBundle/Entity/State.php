@@ -44,7 +44,7 @@ class State
     private $last_state = true;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Slots", inversedBy="states", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Slots", cascade={"persist"})
      */
     private $slot;
 
@@ -148,7 +148,6 @@ class State
       public function setSlot($slot)
       {
           $this->slot = $slot;
-          $slot->getStates()->add($this);
           $slot->setCurrentState($this->state);
 
           return $this;

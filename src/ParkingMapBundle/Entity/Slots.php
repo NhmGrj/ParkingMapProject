@@ -23,20 +23,10 @@ class Slots
      */
     private $id;
 
-    /**
-     * @ORM\OneToMany(targetEntity="State", mappedBy="slot")
-     */
-     private $states;
-
      /**
      * @ORM\Column(name="current_state", type="boolean")
      */
      private $currentState = true;
-
-
-     public function __construct() {
-        $this->states = new ArrayCollection();
-    }
 
     /**
      * Get id
@@ -47,15 +37,6 @@ class Slots
     {
         return $this->id;
     }
-
-    /**
-     * Get states
-     *
-     * @return ArrayCollection
-     */
-     public function getStates() {
-         return $this->states;
-     }
 
      /**
       * Get current State

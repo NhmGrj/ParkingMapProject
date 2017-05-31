@@ -15,13 +15,13 @@ class DefaultController extends Controller
         $em = $this->container->get('doctrine');
         $th = $this->container->get('pkm.time_handler');
         $slotsRepository = $em->getRepository('ParkingMapBundle:Slots');
-        $statesRepository = $em->getRepository('ParkingMapBundle:State');
+        $stateRepository = $em->getRepository('ParkingMapBundle:State');
         $nbHours = 10;
         $hoursSpan = 1;
         $hoursSpanArray = $th->getSpanHoursArray($nbHours, $hoursSpan);
 
 
-        $trafficByHoursSpan = $slotsRepository->getEntriesByHoursSpan($hoursSpanArray);
+        $trafficByHoursSpan = $stateRepository->getTrafficByHoursSpan($hoursSpanArray);
         $slotsNb = $slotsRepository->getSlotsNb();
         $slots = $slotsRepository->findAll();
         $freeSlotsNb = $slotsRepository->getFreeSlotsNb();

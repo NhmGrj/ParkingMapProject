@@ -12,53 +12,6 @@ use ParkingMapBundle\Entity\Slots as Slots;
  */
 class SlotsRepository extends \Doctrine\ORM\EntityRepository
 {
-
-    public function findAllByStatesByHoursSpan($hourStart, $hourEnd) {
-
-        $qb = $this->getEntityManager()->createQueryBuilder();
-
-        $qb->select(array('sl', 'st'))
-            ->from('ParkingMapBundle\Entity\Slots', 'sl')
-            ->join('sl.states', 'st')
-            ->where("st.date <= :hourStart AND st.date >= :hourEnd")
-            ->setParameter('hourStart', $hourStart)
-            ->setParameter('hourEnd', $hourEnd);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    public function getEntriesByHoursSpan($hoursSpanArray) {
-
-        foreach ($hoursSpanArray as $key => $hour) {
-            $hoursSpanArray[$key]['counter']      = array();
-            $hoursSpanArray[$key]['totalEntries'] = 0;
-            $hoursSpanArray[$key]['totalExits']   = 0;
-
-            $slots = $this->findAllByStatesByHoursSpan($hour['current'], $hour['prev']);
-
-            foreach($slots as $slot) {
-                $hoursSpanArray[$key]['counter'][$slot->getId()] = array(
-                    'entry'  => 0,
-                    'exit'   => 0,
-                    'isFree' => null,
-                );
-                foreach($slot->getStates() as $state) {
-                    if($state->getState() != $state->getLastState()){
-                        if($state->getState()) {
-                            $hoursSpanArray[$key]['counter'][$slot->getId()]['entry']++;
-                            $hoursSpanArray[$key]['totalEntries']++;
-                        } else {
-                            $hoursSpanArray[$key]['counter'][$slot->getId()]['exit']++;
-                            $hoursSpanArray[$key]['totalExits']++;
-                        }
-                    }
-                }
-            }
-            $this->getEntityManager()->clear();
-        }
-        return $hoursSpanArray;
-    }
-
     public function getSlotsNb() {
         $qb = $this->createQueryBuilder('sl');
 

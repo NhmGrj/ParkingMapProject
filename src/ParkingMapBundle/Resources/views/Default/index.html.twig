@@ -83,14 +83,14 @@
                                     </div>
                                     <br>
                                     <div class="row">
-                                        {% for id in span.counter|keys %}
+                                        {% for result in span.results %}
                                         <div class="col-md-2 text-center">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    Slot n° <span class="badge">{{id}}</span>
+                                                    Slot n° <span class="badge">{{result.slot_id}}</span>
                                                     <br>
                                                     <br>
-                                                    <span class="label custom-label label-success">{{span.counter[id].entry}}</span> - <span class="label custom-label label-primary">{{span.counter[id].exit}}</span>
+                                                    <span class="label custom-label label-success">{{result.entries}}</span> - <span class="label custom-label label-primary">{{result.exits}}</span>
                                                 </div>
                                             </div>
                                         </div>

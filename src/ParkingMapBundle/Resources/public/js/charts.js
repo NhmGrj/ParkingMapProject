@@ -5,10 +5,11 @@ $(document).ready(function() {
     var entry = new Array();
     var exit = new Array();
     chartData.forEach(function(el, index) {
-        categories.push(moment(el.prev.date).format("hh:mm a"));
+        categories.push(moment(el.prev).format("hh:mm a"));
         entry.push(el.totalEntries);
         exit.push(el.totalExits);
     });
+
 
     Highcharts.chart('chart-container', {
     chart: {
